@@ -6,17 +6,14 @@ using UnityEngine.SceneManagement;
 public class MenuController : MonoBehaviour
 {
 
-
-    public string MainMenu;
-    public string Mapa1x1;
    
-    public void MainMenuScene()
+    public void changeLevelToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
     }
-    public void Mapa1x1Scene()
+    public void changeLevelToMapa1x1()
     {
-        SceneManager.LoadScene(Mapa1x1);
+        SceneManager.LoadScene("Mapa1x1");
     }
 
     // Start is called before the first frame update
