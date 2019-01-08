@@ -6,12 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/MysticCulture/Scenes/Mapa1x1.unity
+    guid: 324f66464bc69b64f82590a65a0a9ad9
+  - enabled: 1
     path: Assets/MysticCulture/Scenes/Login.unity
     guid: c6afbe96b2391234bafb3782cc0f73f2
   - enabled: 1
     path: Assets/MysticCulture/Scenes/MainMenu.unity
     guid: d769e58e75d59e44ea2a2ae3a5a8a43b
-  - enabled: 1
-    path: Assets/MysticCulture/Scenes/Mapa1x1.unity
-    guid: 324f66464bc69b64f82590a65a0a9ad9
   m_configObjects: {}

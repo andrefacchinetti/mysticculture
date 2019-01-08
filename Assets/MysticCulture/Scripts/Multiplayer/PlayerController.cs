@@ -6,7 +6,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
     public class PlayerController : MonoBehaviour
     {
 
-        PlayerName playerName;
+       // PlayerName playerName;
         private NetworkSocketIO socket;
 
         public float moveSpeed;
@@ -22,8 +22,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         private void Start()
         {
             socket = FindObjectOfType(typeof(NetworkSocketIO)) as NetworkSocketIO;
-            playerName = GetComponentInChildren<PlayerName>() as PlayerName;
-            playerName.setName(this.name);
+           // playerName = GetComponentInChildren<PlayerName>() as PlayerName;
+          //  playerName.setName(this.name);
 
             this.joystick = FindObjectOfType(typeof(Joystick)) as Joystick;
             // get the transform of the main camera

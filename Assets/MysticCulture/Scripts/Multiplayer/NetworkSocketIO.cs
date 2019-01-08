@@ -8,7 +8,6 @@ using System.Text.RegularExpressions;
 public class NetworkSocketIO : MonoBehaviour
 {
     private SocketIOComponent socket;
-    InputField mainInputField;
 
     GameObject canvas;
     bool onLogin;
@@ -16,10 +15,9 @@ public class NetworkSocketIO : MonoBehaviour
     public GameObject networkPlayerPrefab; //prefab dos outros players
     protected GameObject myPlayer;
 
-
     public void Start()
     {
-        this.mainInputField = FindObjectOfType(typeof(InputField)) as InputField; //pega o objeto input onde digita o nome futuramente devera ser o nome do player baseado no login
+
         canvas = GameObject.Find("HDUCanvas");
         this.onLogin = false;
 
@@ -83,24 +81,20 @@ public class NetworkSocketIO : MonoBehaviour
 
     public void OnClickPlayBtn()
     {
-        if (this.mainInputField.text != "")
-        {
+       
             //add verificacao para fazer essas coisas somente se o login for validado com conexao
             this.canvas.SetActive(false);
             this.onLogin = true;
             Dictionary<string, string> data = new Dictionary<string, string>(); //pacote JSON
-            data.Add("name", this.mainInputField.text); //data["name"] = mainInputField.text;
+            data.Add("name", "Chucky"); //data["name"] = mainInputField.text;
             Vector3 position = new Vector3(0, 3f, 0);
             Vector3 rotation = new Vector3(0, 0, 0);
             data.Add("position", position.x + "," + position.y + "," + position.z);
             data.Add("rotation", rotation.x + "," + rotation.y + "," + rotation.z);
 
             socket.Emit("LOGIN", new JSONObject(data));
-        }
-        else
-        {
-            this.mainInputField.text = "Digite seu nickname";
-        }
+        
+      
     }
 
     void OnLoginSucess(SocketIOEvent _myPlayer)
