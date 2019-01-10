@@ -53,6 +53,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 transform.Translate(moveVector * moveSpeed * Time.deltaTime, Space.World);
             }
 
+
             // read inputs
             //  float h = CrossPlatformInputManager.GetAxis("Horizontal");
             // float v = CrossPlatformInputManager.GetAxis("Vertical");
@@ -70,17 +71,14 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 // we use world-relative directions in the case of no main camera
                 m_Move = moveVector;
             }
-#if !MOBILE_INPUT
-            // walk speed multiplier
-            if (Input.GetKey(KeyCode.LeftShift)) m_Move *= 0.5f;
-#endif
 
             // pass all parameters to the character control script
             m_Character.Move(m_Move, crouch, m_Jump);
             m_Jump = false;
 
-            socket.EmitPosition(transform.position); //emitir movimentacao pro servidor
-            socket.EmitRotation(transform.rotation); // emitir rotacao pro servidor
-        }
+           // socket.EmitPosition(transform.position); //emitir movimentacao pro servidor
+         //   socket.EmitRotation(transform.rotation); // emitir rotacao pro servidor
+        } 
+
     }
 }
