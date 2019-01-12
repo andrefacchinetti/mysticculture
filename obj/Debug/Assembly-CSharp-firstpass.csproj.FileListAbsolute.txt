@@ -282,3 +282,6 @@ C:\Users\Spider\Mystic\obj\Debug\Assembly-CSharp-firstpass.csproj.CoreCompileInp
 C:\Users\Spider\Mystic\obj\Debug\Assembly-CSharp-firstpass.csproj.CopyComplete
 C:\Users\Spider\Mystic\obj\Debug\Assembly-CSharp-firstpass.dll
 C:\Users\Spider\Mystic\obj\Debug\Assembly-CSharp-firstpass.pdb
+C:\Users\Spider\Mystic\Temp\bin\Debug\Photon3Unity3D.dll
+C:\Users\Spider\Mystic\Temp\bin\Debug\websocket-sharp.dll
+C:\Users\Spider\Mystic\Temp\bin\Debug\Photon3Unity3D.xml

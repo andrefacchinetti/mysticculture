@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace UnityStandardAssets.Characters.ThirdPerson
 {
@@ -73,10 +74,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 			// send input and other state parameters to the animator
 			UpdateAnimator(move);
-		}
+		} 
 
-
-		void ScaleCapsuleForCrouching(bool crouch)
+        void ScaleCapsuleForCrouching(bool crouch)
 		{
 			if (m_IsGrounded && crouch)
 			{
