@@ -37,6 +37,7 @@ public class AtaquesController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (countA)
         {
             contadorA -= Time.deltaTime;
