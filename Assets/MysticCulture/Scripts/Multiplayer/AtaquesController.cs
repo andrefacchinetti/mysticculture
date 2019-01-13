@@ -106,6 +106,4 @@ public class AtaquesController : MonoBehaviour
         buttonAtaqueY.interactable = false; //deixa o bottao nao clicavel
     }
 
-
-
 }

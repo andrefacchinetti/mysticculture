@@ -6,14 +6,17 @@ namespace UnityStandardAssets.Characters.ThirdPerson
     [RequireComponent(typeof(ThirdPersonCharacter))]
     public class PlayerController : MonoBehaviour
     {
+
+        private Hero hero;
+        private GameObject enemy;
+        private bool achouEnemy;
+
         //ESSE SCRIPT SERVE PARA MOVIMENTAÇÃO IGUAL DO LOL ONDE VC CLICKA PARA ANDAR E ELE VAI PRO DESTINO FINAL DESVIANDO DOS OBSTACULOS
         private NavMeshAgent agent;
         private Vector3 targetDestination;
         private PhotonView photon;
 
         private Animator animator;
-        // PlayerName playerName;
-        //private NetworkSocketIO socket;
 
         public float moveSpeed;
         private Joystick joystick;
@@ -27,6 +30,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         private void Start()
         {
+            achouEnemy = false;
+
+            hero = this.GetComponent<Hero>();
             agent = this.GetComponent<NavMeshAgent>();
             photon = this.GetComponent<PhotonView>();
             animator = this.GetComponent<Animator>();
@@ -51,54 +57,87 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         void Update()
         {
-            if (photon.isMine)
+            if (!achouEnemy && photon.isMine)
             {
-                Vector3 moveVector = (Vector3.right * joystick.Horizontal + Vector3.forward * joystick.Vertical);
-
-                if (moveVector != Vector3.zero)
-                {//movimentacao de giro, virar o player de pra um lado e pro outro
-                    transform.rotation = Quaternion.LookRotation(moveVector);
-                    transform.Translate(moveVector * moveSpeed * Time.deltaTime, Space.World);
-                }
-                bool crouch = Input.GetKey(KeyCode.C); //abaixar
-                                                       // calculate move direction to pass to character
-                if (m_Cam != null)
+                GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+                for (int i = 0; i < players.Length; i++)
                 {
-                    // calculate camera relative direction to move:
-                    m_CamForward = Vector3.Scale(m_Cam.forward, new Vector3(1, 0, 1)).normalized;
-                    m_Move = moveVector * moveSpeed;
+                    if (players[i].GetComponent<PhotonView>().isMine == false)
+                    {
+                        this.enemy = players[i];
+                        this.achouEnemy = true;
+                        break;
+                    }
+                }
+            }
+                if (photon.isMine)
+                {
+                    Vector3 moveVector = (Vector3.right * joystick.Horizontal + Vector3.forward * joystick.Vertical);
+
+                    if (moveVector != Vector3.zero)
+                    {//movimentacao de giro, virar o player de pra um lado e pro outro
+                        transform.rotation = Quaternion.LookRotation(moveVector);
+                        transform.Translate(moveVector * moveSpeed * Time.deltaTime, Space.World);
+                    }
+                    bool crouch = Input.GetKey(KeyCode.C); //abaixar
+                                                           // calculate move direction to pass to character
+                    if (m_Cam != null)
+                    {
+                        // calculate camera relative direction to move:
+                        m_CamForward = Vector3.Scale(m_Cam.forward, new Vector3(1, 0, 1)).normalized;
+                        m_Move = moveVector * moveSpeed;
+                    }
+                    else
+                    {
+                        // we use world-relative directions in the case of no main camera
+                        m_Move = moveVector * moveSpeed;
+                    }
+                    // pass all parameters to the character control script   
+                    m_Jump = false;
+                    m_Character.Move(m_Move, crouch, m_Jump);
+                }
+
+        }
+
+            void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+            {
+                if (stream.isWriting)
+                { //aqui é o cliente mandando nossas informaçoes
+                    stream.SendNext(animator.GetBool("OnGround"));
+                    stream.SendNext(animator.GetBool("isAtacandoA"));
+                    stream.SendNext(animator.GetBool("isAtacandoB"));
+                    stream.SendNext(animator.GetBool("isAtacandoX"));
+                    stream.SendNext(animator.GetBool("isAtacandoY"));
                 }
                 else
-                {
-                    // we use world-relative directions in the case of no main camera
-                    m_Move = moveVector * moveSpeed;
+                { //aqui são os outros clientes recebendo nossa informaçao
+                    animator.SetBool("OnGround", (bool)stream.ReceiveNext());
+                    animator.SetBool("isAtacandoA", (bool)stream.ReceiveNext());
+                    animator.SetBool("isAtacandoB", (bool)stream.ReceiveNext());
+                    animator.SetBool("isAtacandoX", (bool)stream.ReceiveNext());
+                    animator.SetBool("isAtacandoY", (bool)stream.ReceiveNext());
                 }
-                // pass all parameters to the character control script   
-                m_Jump = false;
-                m_Character.Move(m_Move, crouch, m_Jump);
-            }
-           
-        }
+            }  
 
-        void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        public void AttackAniB() //metodo referente ao metodo setado na animacao. animation>event
         {
-            if (stream.isWriting)
-            { //aqui é o cliente mandando nossas informaçoes
-                stream.SendNext(animator.GetBool("OnGround"));
-                stream.SendNext(animator.GetBool("isAtacandoA"));
-                stream.SendNext(animator.GetBool("isAtacandoB"));
-                stream.SendNext(animator.GetBool("isAtacandoX"));
-                stream.SendNext(animator.GetBool("isAtacandoY"));
-            }
-            else
-            { //aqui são os outros clientes recebendo nossa informaçao
-                animator.SetBool("OnGround", (bool) stream.ReceiveNext());
-                animator.SetBool("isAtacandoA", (bool)stream.ReceiveNext());
-                animator.SetBool("isAtacandoB", (bool)stream.ReceiveNext());
-                animator.SetBool("isAtacandoX", (bool)stream.ReceiveNext());
-                animator.SetBool("isAtacandoY", (bool)stream.ReceiveNext());
+            int attackValue = this.hero.getAttack();
+            if (enemy && photon.isMine)
+            {
+                enemy.GetComponent<PhotonView>().RPC("TakeDamage",PhotonTargets.All,attackValue); //RPC metodo pra enviar os dados pelo servidor
             }
         }
 
+        [PunRPC]
+        public void TakeDamage(int damage) //PunRPC metodo para receber os dados pelo servidor
+        {
+            if (photon.isMine)
+            {
+                Hero hero = this.gameObject.GetComponent<Hero>();
+                int currentHp = hero.getCurrentHp();
+                hero.setCurrentHp(currentHp - damage);
+            }
+        }
     }
 }
+

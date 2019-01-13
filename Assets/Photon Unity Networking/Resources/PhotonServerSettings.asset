@@ -15,15 +15,15 @@ MonoBehaviour:
   AppID: dd9020ed-822d-43c5-92df-320dec19cb66
   VoiceAppID: 
   ChatAppID: 
-  HostType: 1
+  HostType: 4
   PreferredRegion: 1
-  EnabledRegions: -1
+  EnabledRegions: 195
   Protocol: 0
-  ServerAddress: 
+  ServerAddress: 192.168.0.10
   ServerPort: 5055
   VoiceServerPort: 5055
   JoinLobby: 1
-  EnableLobbyStatistics: 0
+  EnableLobbyStatistics: 1
   PunLogging: 0
   NetworkLogging: 1
   RunInBackground: 1
@@ -43,4 +43,5 @@ MonoBehaviour:
   - RequestForPickupItems
   - RequestForPickupTimes
   - TaggedPlayer
+  - TakeDamage
   DisableAutoOpenWizard: 1

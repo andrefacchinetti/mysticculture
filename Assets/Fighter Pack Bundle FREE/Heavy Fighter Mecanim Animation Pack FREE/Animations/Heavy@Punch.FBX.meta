@@ -333,7 +333,15 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.37472284
+        functionName: AttackAniB
+        data: 
+        objectReferenceParameter: {fileID: 825904587, guid: 93240b57fc70b2b45a94686f523b3173,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1

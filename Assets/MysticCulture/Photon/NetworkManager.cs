@@ -7,6 +7,7 @@ public class NetworkManager : MonoBehaviour
 {
 
     public Text txStatus;
+    public GameObject camera;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,7 +32,8 @@ public class NetworkManager : MonoBehaviour
         //Input para instanciar os players
         if (Input.GetKeyDown(KeyCode.I))
         {
-            PhotonNetwork.Instantiate("Kambai",new Vector3(0,0,0),Quaternion.identity,0); //prefab tem q estar obrigatoriamente dentro da pasta "Resources" 
+            PhotonNetwork.Instantiate("Kambai",new Vector3(-4.5f,3,-33),Quaternion.identity,0); //prefab tem q estar obrigatoriamente dentro da pasta "Resources" 
+            camera.SetActive(false);
             txStatus.text = "Instanciou o player";
             txStatus.color = Color.green;
         }
