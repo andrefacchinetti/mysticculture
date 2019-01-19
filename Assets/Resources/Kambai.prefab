@@ -719,9 +719,10 @@ GameObject:
   - component: {fileID: 1110}
   - component: {fileID: 1216}
   - component: {fileID: 1197}
+  - component: {fileID: 3945534609655331920}
   m_Layer: 0
-  m_Name: default
-  m_TagString: Untagged
+  m_Name: lamina
+  m_TagString: ArcoKambai
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -785,6 +786,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &3945534609655331920
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300000, guid: 022a72268e462114788abcf0c0b07418, type: 3}
 --- !u!1 &657
 GameObject:
   m_ObjectHideFlags: 0
@@ -1638,6 +1653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e76b155b5fd01f43b10574037b043db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  idName: Kambai
   moveSpeed: 0.8
 --- !u!114 &1357
 MonoBehaviour:

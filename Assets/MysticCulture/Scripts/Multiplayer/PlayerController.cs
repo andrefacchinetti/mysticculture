@@ -6,7 +6,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
     [RequireComponent(typeof(ThirdPersonCharacter))]
     public class PlayerController : MonoBehaviour
     {
-
+        public string idName;
+        private GameObject lamina;
         private Hero hero;
         private GameObject enemy;
         private bool achouEnemy;
@@ -30,8 +31,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         private void Start()
         {
+            if (idName.Equals("Kambai")) lamina = GameObject.FindGameObjectWithTag("ArcoKambai");
             achouEnemy = false;
-
             hero = this.GetComponent<Hero>();
             agent = this.GetComponent<NavMeshAgent>();
             photon = this.GetComponent<PhotonView>();
@@ -121,18 +122,20 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         public void AttackAniB() //metodo referente ao metodo setado na animacao. animation>event
         {
+           
             int attackValue = this.hero.getAttack();
             if (enemy && photon.isMine)
             {
-                enemy.GetComponent<PhotonView>().RPC("TakeDamage",PhotonTargets.All,attackValue); //RPC metodo pra enviar os dados pelo servidor
+              enemy.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.All, attackValue); //RPC metodo pra enviar os dados pelo servidor
             }
+            
         }
 
         [PunRPC]
         public void TakeDamage(int damage) //PunRPC metodo para receber os dados pelo servidor
         {
             if (photon.isMine)
-            {
+            {   
                 Hero hero = this.gameObject.GetComponent<Hero>();
                 int currentHp = hero.getCurrentHp();
                 hero.setCurrentHp(currentHp - damage);
